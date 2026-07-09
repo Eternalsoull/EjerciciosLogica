@@ -14,6 +14,23 @@ import NivelIntermedio.Producto;
 import NivelIntermedio.RegistroEmpleados;
 import NivelIntermedio.Empleado;
 import NivelIntermedio.Estudiante;
+import NivelAvanzado.Vehiculo;
+import NivelAvanzado.Auto;
+import NivelAvanzado.Moto;
+import NivelAvanzado.Camion;
+import NivelAvanzado.Figura;
+import NivelAvanzado.Circulo;
+import NivelAvanzado.Rectangulo;
+import NivelAvanzado.Triangulo;
+import NivelAvanzado.Libro;
+import NivelAvanzado.Usuario;
+import NivelAvanzado.Biblioteca;
+import NivelAvanzado.Habitacion;
+import NivelAvanzado.Reserva;
+import NivelAvanzado.Hotel;
+import NivelAvanzado.Dado;
+import NivelAvanzado.Jugador;
+import NivelAvanzado.Juego;
 
 public class MenuEjercicios {
 
@@ -23,8 +40,9 @@ public class MenuEjercicios {
 
         do {
             System.out.println("========= MENÚ PRINCIPAL =========");
-            System.out.println("1. NivelBasico");
-            System.out.println("2. NivelIntermedio");
+            System.out.println("1. Nivel Básico");
+            System.out.println("2. Nivel Intermedio");
+            System.out.println("3. Nivel Avanzado");
             System.out.println("0. Salir");
             System.out.print("¿Qué nivel deseas ejecutar?: ");
 
@@ -36,6 +54,9 @@ public class MenuEjercicios {
                     break;
                 case 2:
                     menuNivelIntermedio(scanner);
+                    break;
+                case 3:
+                    menuNivelAvanzado(scanner);
                     break;
                 case 0:
                     System.out.println("Saliendo del programa...");
@@ -129,6 +150,53 @@ public class MenuEjercicios {
                     break;
                 case 10:
                     menuRegistroEmpleados(scanner, registro);
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= MENÚ NIVEL AVANZADO =========
+    private static void menuNivelAvanzado(Scanner scanner) {
+        int opcion;
+
+        Biblioteca biblioteca = new Biblioteca();
+        Hotel hotel = new Hotel("Hotel Ejercicio");
+        Juego juego = new Juego();
+
+        do {
+            System.out.println("========= MENÚ NIVEL AVANZADO =========");
+            System.out.println("11. Jerarquía de Vehículos");
+            System.out.println("12. Sistema de Figuras Geométricas");
+            System.out.println("13. Gestión de Biblioteca");
+            System.out.println("14. Sistema de Reservas de Hotel");
+            System.out.println("15. Juego de Dados");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 11:
+                    menuVehiculos(scanner);
+                    break;
+                case 12:
+                    menuFiguras(scanner);
+                    break;
+                case 13:
+                    menuBiblioteca(scanner, biblioteca);
+                    break;
+                case 14:
+                    menuHotel(scanner, hotel);
+                    break;
+                case 15:
+                    menuJuegoDados(scanner, juego);
                     break;
                 case 0:
                     System.out.println("Volviendo al menú principal...");
@@ -649,6 +717,303 @@ public class MenuEjercicios {
                     System.out.println("Opción no válida.");
             }
 
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 11: VEHÍCULOS =========
+    private static void menuVehiculos(Scanner scanner) {
+        System.out.println("--- Jerarquía de Vehículos ---");
+        System.out.println("1. Crear Auto");
+        System.out.println("2. Crear Moto");
+        System.out.println("3. Crear Camión");
+        System.out.print("Elige un vehículo: ");
+        int tipo = leerEntero(scanner);
+
+        System.out.print("Marca: ");
+        String marca = leerLineaCompleta(scanner);
+        System.out.print("Modelo: ");
+        String modelo = leerLineaCompleta(scanner);
+        System.out.print("Año: ");
+        int anio = leerEntero(scanner);
+
+        Vehiculo vehiculo = null;
+        switch (tipo) {
+            case 1:
+                System.out.print("Número de puertas: ");
+                int puertas = leerEntero(scanner);
+                vehiculo = new Auto(marca, modelo, anio, puertas);
+                break;
+            case 2:
+                System.out.print("Cilindrada (cc): ");
+                int cilindrada = leerEntero(scanner);
+                vehiculo = new Moto(marca, modelo, anio, cilindrada);
+                break;
+            case 3:
+                System.out.print("Capacidad en toneladas: ");
+                double toneladas = leerDouble(scanner);
+                vehiculo = new Camion(marca, modelo, anio, toneladas);
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+        System.out.println(vehiculo.mostrar());
+    }
+
+    // ========= EJERCICIO 12: FIGURAS =========
+    private static void menuFiguras(Scanner scanner) {
+        System.out.println("--- Sistema de Figuras Geométricas ---");
+        System.out.println("1. Círculo");
+        System.out.println("2. Rectángulo");
+        System.out.println("3. Triángulo");
+        System.out.print("Elige una figura: ");
+        int tipo = leerEntero(scanner);
+
+        Figura figura = null;
+        switch (tipo) {
+            case 1:
+                System.out.print("Radio: ");
+                double radio = leerDouble(scanner);
+                figura = new Circulo(radio);
+                break;
+            case 2:
+                System.out.print("Base: ");
+                double base = leerDouble(scanner);
+                System.out.print("Altura: ");
+                double altura = leerDouble(scanner);
+                figura = new Rectangulo(base, altura);
+                break;
+            case 3:
+                System.out.print("Lado 1: ");
+                double l1 = leerDouble(scanner);
+                System.out.print("Lado 2: ");
+                double l2 = leerDouble(scanner);
+                System.out.print("Lado 3: ");
+                double l3 = leerDouble(scanner);
+                try {
+                    figura = new Triangulo(l1, l2, l3);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error: " + e.getMessage());
+                    return;
+                }
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+        System.out.println(figura.mostrar());
+    }
+
+    // ========= EJERCICIO 13: BIBLIOTECA =========
+    private static void menuBiblioteca(Scanner scanner, Biblioteca biblioteca) {
+        int opcion;
+        do {
+            System.out.println("--- Gestión de Biblioteca ---");
+            System.out.println("1. Agregar libro");
+            System.out.println("2. Registrar usuario");
+            System.out.println("3. Prestar libro");
+            System.out.println("4. Devolver libro");
+            System.out.println("5. Listar libros");
+            System.out.println("6. Listar usuarios");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    System.out.print("Título: ");
+                    String titulo = leerLineaCompleta(scanner);
+                    System.out.print("Autor: ");
+                    String autor = leerLineaCompleta(scanner);
+                    System.out.print("ISBN: ");
+                    String isbn = leerLineaCompleta(scanner);
+                    biblioteca.agregarLibro(new Libro(titulo, autor, isbn));
+                    System.out.println("Libro agregado.");
+                    break;
+                }
+                case 2: {
+                    System.out.print("Nombre del usuario: ");
+                    String nombre = leerLineaCompleta(scanner);
+                    biblioteca.registrarUsuario(new Usuario(nombre));
+                    System.out.println("Usuario registrado.");
+                    break;
+                }
+                case 3: {
+                    System.out.print("Nombre del usuario: ");
+                    String nombre = leerLineaCompleta(scanner);
+                    System.out.print("ISBN del libro: ");
+                    String isbn = leerLineaCompleta(scanner);
+                    System.out.println(biblioteca.prestarLibro(nombre, isbn));
+                    break;
+                }
+                case 4: {
+                    System.out.print("Nombre del usuario: ");
+                    String nombre = leerLineaCompleta(scanner);
+                    System.out.print("ISBN del libro: ");
+                    String isbn = leerLineaCompleta(scanner);
+                    System.out.println(biblioteca.devolverLibro(nombre, isbn));
+                    break;
+                }
+                case 5: {
+                    ArrayList<Libro> libros = biblioteca.listarLibros();
+                    if (libros.isEmpty()) {
+                        System.out.println("(Sin libros)");
+                    } else {
+                        for (Libro l : libros) {
+                            System.out.println(l.mostrar());
+                        }
+                    }
+                    break;
+                }
+                case 6: {
+                    ArrayList<Usuario> usuarios = biblioteca.listarUsuarios();
+                    if (usuarios.isEmpty()) {
+                        System.out.println("(Sin usuarios)");
+                    } else {
+                        for (Usuario u : usuarios) {
+                            System.out.println(u.mostrar());
+                        }
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 14: HOTEL =========
+    private static void menuHotel(Scanner scanner, Hotel hotel) {
+        int opcion;
+        do {
+            System.out.println("--- Sistema de Reservas de Hotel ---");
+            System.out.println("1. Agregar habitación");
+            System.out.println("2. Hacer reserva");
+            System.out.println("3. Cancelar reserva");
+            System.out.println("4. Listar habitaciones");
+            System.out.println("5. Listar reservas");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    System.out.print("Número de habitación: ");
+                    int num = leerEntero(scanner);
+                    System.out.print("Tipo (simple/doble/suite): ");
+                    String tipo = leerLineaCompleta(scanner);
+                    System.out.print("Precio por noche: ");
+                    double precio = leerDouble(scanner);
+                    hotel.agregarHabitacion(new Habitacion(num, tipo, precio));
+                    System.out.println("Habitación agregada.");
+                    break;
+                }
+                case 2: {
+                    System.out.print("Nombre del cliente: ");
+                    String cliente = leerLineaCompleta(scanner);
+                    System.out.print("Tipo de habitación: ");
+                    String tipo = leerLineaCompleta(scanner);
+                    System.out.print("Número de días: ");
+                    int dias = leerEntero(scanner);
+                    System.out.println(hotel.hacerReserva(cliente, tipo, dias));
+                    break;
+                }
+                case 3: {
+                    System.out.print("Número de habitación: ");
+                    int num = leerEntero(scanner);
+                    System.out.println(hotel.cancelarReserva(num));
+                    break;
+                }
+                case 4: {
+                    ArrayList<Habitacion> habitaciones = hotel.listarHabitaciones();
+                    if (habitaciones.isEmpty()) {
+                        System.out.println("(Sin habitaciones)");
+                    } else {
+                        for (Habitacion h : habitaciones) {
+                            System.out.println(h.mostrar());
+                        }
+                    }
+                    break;
+                }
+                case 5: {
+                    ArrayList<Reserva> reservas = hotel.listarReservas();
+                    if (reservas.isEmpty()) {
+                        System.out.println("(Sin reservas)");
+                    } else {
+                        for (Reserva r : reservas) {
+                            System.out.println(r.mostrar());
+                        }
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 15: JUEGO DE DADOS =========
+    private static void menuJuegoDados(Scanner scanner, Juego juego) {
+        int opcion;
+        do {
+            System.out.println("--- Juego de Dados ---");
+            System.out.println("1. Agregar jugador");
+            System.out.println("2. Jugar ronda");
+            System.out.println("3. Ver resultados");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    System.out.print("Nombre del jugador: ");
+                    String nombre = leerLineaCompleta(scanner);
+                    juego.agregarJugador(nombre);
+                    System.out.println("Jugador agregado.");
+                    break;
+                }
+                case 2: {
+                    if (juego.getJugadores().size() < 2) {
+                        System.out.println("Se necesitan al menos 2 jugadores.");
+                        break;
+                    }
+                    juego.jugarRonda();
+                    System.out.println("Resultados de la ronda:");
+                    for (Jugador j : juego.getJugadores()) {
+                        System.out.println(j.mostrar());
+                    }
+                    Jugador ganador = juego.determinarGanador();
+                    System.out.println("Ganador: " + ganador.getNombre() + " con " + ganador.getPuntos() + " puntos!");
+                    break;
+                }
+                case 3: {
+                    if (juego.getJugadores().isEmpty()) {
+                        System.out.println("(Sin jugadores)");
+                    } else {
+                        for (Jugador j : juego.getJugadores()) {
+                            System.out.println(j.mostrar());
+                        }
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
             System.out.println();
         } while (opcion != 0);
     }
