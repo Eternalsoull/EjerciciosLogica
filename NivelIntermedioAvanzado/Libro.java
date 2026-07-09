@@ -1,4 +1,4 @@
-package NivelAvanzado;
+package NivelIntermedioAvanzado;
 
 public class Libro {
     private String titulo;

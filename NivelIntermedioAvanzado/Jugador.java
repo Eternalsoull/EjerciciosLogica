@@ -1,4 +1,4 @@
-package NivelAvanzado;
+package NivelIntermedioAvanzado;
 
 public class Jugador {
     private String nombre;

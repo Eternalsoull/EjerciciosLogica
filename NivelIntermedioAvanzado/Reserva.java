@@ -1,4 +1,4 @@
-package NivelAvanzado;
+package NivelIntermedioAvanzado;
 
 public class Reserva {
     private String cliente;

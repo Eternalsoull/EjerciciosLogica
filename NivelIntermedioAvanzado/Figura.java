@@ -1,4 +1,4 @@
-package NivelAvanzado;
+package NivelIntermedioAvanzado;
 
 public abstract class Figura {
     public abstract double calcularArea();

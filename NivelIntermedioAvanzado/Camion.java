@@ -1,4 +1,4 @@
-package NivelAvanzado;
+package NivelIntermedioAvanzado;
 
 public class Camion extends Vehiculo {
     private double capacidadToneladas;
