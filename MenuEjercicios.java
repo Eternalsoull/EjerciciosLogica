@@ -31,6 +31,13 @@ import NivelIntermedioAvanzado.Hotel;
 import NivelIntermedioAvanzado.Dado;
 import NivelIntermedioAvanzado.Jugador;
 import NivelIntermedioAvanzado.Juego;
+import NivelAvanzado.OrdenamientoAvanzado;
+import NivelAvanzado.ProductoSimple;
+import NivelAvanzado.BusquedaEnListas;
+import NivelAvanzado.Pila;
+import NivelAvanzado.Cola;
+import NivelAvanzado.ListaEnlazada;
+import NivelAvanzado.ArbolBinario;
 
 public class MenuEjercicios {
 
@@ -42,7 +49,8 @@ public class MenuEjercicios {
             System.out.println("========= MENÚ PRINCIPAL =========");
             System.out.println("1. Nivel Básico");
             System.out.println("2. Nivel Intermedio");
-            System.out.println("3. Nivel Avanzado");
+            System.out.println("3. Nivel Intermedio - Avanzado");
+            System.out.println("4. Nivel Avanzado");
             System.out.println("0. Salir");
             System.out.print("¿Qué nivel deseas ejecutar?: ");
 
@@ -56,6 +64,9 @@ public class MenuEjercicios {
                     menuNivelIntermedio(scanner);
                     break;
                 case 3:
+                    menuNivelIntermedioAvanzado(scanner);
+                    break;
+                case 4:
                     menuNivelAvanzado(scanner);
                     break;
                 case 0:
@@ -162,8 +173,8 @@ public class MenuEjercicios {
         } while (opcion != 0);
     }
 
-    // ========= MENÚ NIVEL AVANZADO =========
-    private static void menuNivelAvanzado(Scanner scanner) {
+    // ========= MENÚ NIVEL INTERMEDIO - AVANZADO =========
+    private static void menuNivelIntermedioAvanzado(Scanner scanner) {
         int opcion;
 
         Biblioteca biblioteca = new Biblioteca();
@@ -171,7 +182,7 @@ public class MenuEjercicios {
         Juego juego = new Juego();
 
         do {
-            System.out.println("========= MENÚ NIVEL AVANZADO =========");
+            System.out.println("========= MENÚ NIVEL INTERMEDIO - AVANZADO =========");
             System.out.println("11. Jerarquía de Vehículos");
             System.out.println("12. Sistema de Figuras Geométricas");
             System.out.println("13. Gestión de Biblioteca");
@@ -1008,6 +1019,346 @@ public class MenuEjercicios {
                     }
                     break;
                 }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= MENÚ NIVEL AVANZADO =========
+    private static void menuNivelAvanzado(Scanner scanner) {
+        int opcion;
+        do {
+            System.out.println("========= MENÚ NIVEL AVANZADO =========");
+            System.out.println("16. Ordenamiento Avanzado");
+            System.out.println("17. Búsqueda en Listas");
+            System.out.println("18. Pila y Cola");
+            System.out.println("19. Lista Enlazada");
+            System.out.println("20. Árbol Binario de Búsqueda");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 16:
+                    menuOrdenamiento(scanner);
+                    break;
+                case 17:
+                    menuBusqueda(scanner);
+                    break;
+                case 18:
+                    menuPilaCola(scanner);
+                    break;
+                case 19:
+                    menuListaEnlazada(scanner);
+                    break;
+                case 20:
+                    menuArbolBinario(scanner);
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 16: ORDENAMIENTO =========
+    private static void menuOrdenamiento(Scanner scanner) {
+        int opcion;
+        do {
+            System.out.println("--- Ordenamiento Avanzado ---");
+            System.out.println("1. QuickSort");
+            System.out.println("2. MergeSort");
+            System.out.println("3. Comparar tiempos");
+            System.out.println("4. Ordenar productos por precio y nombre");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    int[] arr = leerArreglo(scanner);
+                    OrdenamientoAvanzado.quickSort(arr, 0, arr.length - 1);
+                    System.out.println("Ordenado: " + OrdenamientoAvanzado.imprimirArreglo(arr));
+                    break;
+                }
+                case 2: {
+                    int[] arr = leerArreglo(scanner);
+                    OrdenamientoAvanzado.mergeSort(arr, 0, arr.length - 1);
+                    System.out.println("Ordenado: " + OrdenamientoAvanzado.imprimirArreglo(arr));
+                    break;
+                }
+                case 3: {
+                    int[] arr = leerArreglo(scanner);
+                    System.out.println(OrdenamientoAvanzado.compararTiempos(arr));
+                    break;
+                }
+                case 4: {
+                    ProductoSimple[] productos = new ProductoSimple[3];
+                    for (int i = 0; i < 3; i++) {
+                        System.out.print("Nombre producto " + (i + 1) + ": ");
+                        String nombre = leerLineaCompleta(scanner);
+                        System.out.print("Precio: ");
+                        double precio = leerDouble(scanner);
+                        productos[i] = new ProductoSimple(nombre, precio);
+                    }
+                    System.out.println(OrdenamientoAvanzado.ordenarPorCriterios(productos));
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    private static int[] leerArreglo(Scanner scanner) {
+        System.out.print("¿Cuántos elementos? ");
+        int n = leerEntero(scanner);
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Elemento " + (i + 1) + ": ");
+            arr[i] = leerEntero(scanner);
+        }
+        return arr;
+    }
+
+    // ========= EJERCICIO 17: BÚSQUEDA =========
+    private static void menuBusqueda(Scanner scanner) {
+        int opcion;
+        do {
+            System.out.println("--- Búsqueda en Listas ---");
+            System.out.println("1. Búsqueda binaria");
+            System.out.println("2. Búsqueda lineal con centinela");
+            System.out.println("3. Elemento más cercano a un valor");
+            System.out.println("4. Encontrar todos los índices");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    int[] arr = leerArreglo(scanner);
+                    System.out.print("Valor a buscar: ");
+                    int objetivo = leerEntero(scanner);
+                    int pos = BusquedaEnListas.busquedaBinaria(arr, objetivo);
+                    System.out.println(pos >= 0 ? "Encontrado en posición: " + pos : "No encontrado.");
+                    break;
+                }
+                case 2: {
+                    int[] arr = leerArreglo(scanner);
+                    System.out.print("Valor a buscar: ");
+                    int objetivo = leerEntero(scanner);
+                    int pos = BusquedaEnListas.busquedaLinealCentinela(arr, objetivo);
+                    System.out.println(pos >= 0 ? "Encontrado en posición: " + pos : "No encontrado.");
+                    break;
+                }
+                case 3: {
+                    int[] arr = leerArreglo(scanner);
+                    System.out.print("Valor de referencia: ");
+                    int valor = leerEntero(scanner);
+                    System.out.println("Más cercano: " + BusquedaEnListas.elementoMasCercano(arr, valor));
+                    break;
+                }
+                case 4: {
+                    int[] arr = leerArreglo(scanner);
+                    System.out.print("Valor a buscar: ");
+                    int objetivo = leerEntero(scanner);
+                    ArrayList<Integer> indices = BusquedaEnListas.encontrarTodosIndices(arr, objetivo);
+                    System.out.println(indices.isEmpty() ? "No encontrado." : "Índices: " + indices);
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 18: PILA Y COLA =========
+    private static void menuPilaCola(Scanner scanner) {
+        int opcion;
+        do {
+            System.out.println("--- Pila y Cola ---");
+            System.out.println("1. Operaciones con Pila");
+            System.out.println("2. Validar paréntesis balanceados");
+            System.out.println("3. Simular fila de banco");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    Pila<Integer> pila = new Pila<>();
+                    int op;
+                    do {
+                        System.out.println("--- Pila ---");
+                        System.out.println("1. Push | 2. Pop | 3. Peek | 4. ¿Vacía? | 0. Volver");
+                        op = leerEntero(scanner);
+                        switch (op) {
+                            case 1:
+                                System.out.print("Valor: ");
+                                pila.push(leerEntero(scanner));
+                                System.out.println("Agregado.");
+                                break;
+                            case 2:
+                                System.out.println("Extraído: " + pila.pop());
+                                break;
+                            case 3:
+                                System.out.println("Tope: " + pila.peek());
+                                break;
+                            case 4:
+                                System.out.println(pila.isEmpty() ? "Vacía" : "No vacía (" + pila.size() + " elementos)");
+                                break;
+                        }
+                    } while (op != 0);
+                    break;
+                }
+                case 2: {
+                    System.out.print("Expresión: ");
+                    String expr = leerLineaCompleta(scanner);
+                    System.out.println(Pila.parentesisBalanceados(expr) ? "Balanceados" : "No balanceados");
+                    break;
+                }
+                case 3: {
+                    System.out.print("¿Cuántos clientes? ");
+                    int n = leerEntero(scanner);
+                    String[] clientes = new String[n];
+                    for (int i = 0; i < n; i++) {
+                        System.out.print("Cliente " + (i + 1) + ": ");
+                        clientes[i] = leerLineaCompleta(scanner);
+                    }
+                    System.out.println(Cola.simularFilaBanco(clientes));
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 19: LISTA ENLAZADA =========
+    private static void menuListaEnlazada(Scanner scanner) {
+        ListaEnlazada lista = new ListaEnlazada();
+        int opcion;
+        do {
+            System.out.println("--- Lista Enlazada ---");
+            System.out.println("1. Insertar");
+            System.out.println("2. Eliminar");
+            System.out.println("3. Buscar");
+            System.out.println("4. Invertir");
+            System.out.println("5. Obtener en posición n");
+            System.out.println("6. Mostrar lista");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Valor a insertar: ");
+                    lista.insertar(leerEntero(scanner));
+                    System.out.println("Insertado.");
+                    break;
+                case 2:
+                    System.out.print("Valor a eliminar: ");
+                    System.out.println(lista.eliminar(leerEntero(scanner)) ? "Eliminado." : "No encontrado.");
+                    break;
+                case 3:
+                    System.out.print("Valor a buscar: ");
+                    System.out.println(lista.buscar(leerEntero(scanner)) ? "Encontrado." : "No encontrado.");
+                    break;
+                case 4:
+                    lista.invertir();
+                    System.out.println("Lista invertida.");
+                    break;
+                case 5:
+                    System.out.print("Posición: ");
+                    try {
+                        System.out.println("Valor: " + lista.obtenerEnPosicion(leerEntero(scanner)));
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+                case 6:
+                    System.out.println(lista.mostrar());
+                    break;
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 20: ÁRBOL BINARIO =========
+    private static void menuArbolBinario(Scanner scanner) {
+        ArbolBinario arbol = new ArbolBinario();
+        int opcion;
+        do {
+            System.out.println("--- Árbol Binario de Búsqueda ---");
+            System.out.println("1. Insertar");
+            System.out.println("2. Buscar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Recorrido Inorden");
+            System.out.println("5. Recorrido Preorden");
+            System.out.println("6. Recorrido Postorden");
+            System.out.println("7. Altura del árbol");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Valor a insertar: ");
+                    arbol.insertar(leerEntero(scanner));
+                    System.out.println("Insertado.");
+                    break;
+                case 2:
+                    System.out.print("Valor a buscar: ");
+                    System.out.println(arbol.buscar(leerEntero(scanner)) ? "Encontrado." : "No encontrado.");
+                    break;
+                case 3:
+                    System.out.print("Valor a eliminar: ");
+                    arbol.eliminar(leerEntero(scanner));
+                    System.out.println("Eliminado (si existía).");
+                    break;
+                case 4:
+                    System.out.println("Inorden: " + arbol.inorden());
+                    break;
+                case 5:
+                    System.out.println("Preorden: " + arbol.preorden());
+                    break;
+                case 6:
+                    System.out.println("Postorden: " + arbol.postorden());
+                    break;
+                case 7:
+                    System.out.println("Altura: " + arbol.altura());
+                    break;
                 case 0:
                     System.out.println("Volviendo...");
                     break;
