@@ -38,6 +38,18 @@ import NivelAvanzado.Pila;
 import NivelAvanzado.Cola;
 import NivelAvanzado.ListaEnlazada;
 import NivelAvanzado.ArbolBinario;
+import NivelAvanzado2.ProductoInventario;
+import NivelAvanzado2.ProductoPerecible;
+import NivelAvanzado2.ProductoElectronico;
+import NivelAvanzado2.Inventario;
+import NivelAvanzado2.AnalizadorExpresiones;
+import NivelAvanzado2.Cuenta;
+import NivelAvanzado2.CajeroAutomatico;
+import NivelAvanzado2.Vuelo;
+import NivelAvanzado2.Pasajero;
+import NivelAvanzado2.SistemaVuelos;
+import NivelAvanzado2.Sudoku;
+import java.time.LocalDate;
 
 public class MenuEjercicios {
 
@@ -51,6 +63,7 @@ public class MenuEjercicios {
             System.out.println("2. Nivel Intermedio");
             System.out.println("3. Nivel Intermedio - Avanzado");
             System.out.println("4. Nivel Avanzado");
+            System.out.println("5. Nivel Avanzado 2");
             System.out.println("0. Salir");
             System.out.print("¿Qué nivel deseas ejecutar?: ");
 
@@ -68,6 +81,9 @@ public class MenuEjercicios {
                     break;
                 case 4:
                     menuNivelAvanzado(scanner);
+                    break;
+                case 5:
+                    menuNivelAvanzado2(scanner);
                     break;
                 case 0:
                     System.out.println("Saliendo del programa...");
@@ -1367,6 +1383,354 @@ public class MenuEjercicios {
             }
             System.out.println();
         } while (opcion != 0);
+    }
+
+    // ========= MENÚ NIVEL AVANZADO 2 =========
+    private static void menuNivelAvanzado2(Scanner scanner) {
+        int opcion;
+        do {
+            System.out.println("========= MENÚ NIVEL AVANZADO 2 =========");
+            System.out.println("21. Sistema de Gestión de Inventario");
+            System.out.println("22. Analizador de Expresiones Matemáticas");
+            System.out.println("23. Simulador de Cajero Automático");
+            System.out.println("24. Sistema de Reservas de Vuelos");
+            System.out.println("25. Validador y Resolvedor de Sudoku");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 21:
+                    menuInventario(scanner);
+                    break;
+                case 22:
+                    menuExpresiones(scanner);
+                    break;
+                case 23:
+                    menuCajero(scanner);
+                    break;
+                case 24:
+                    menuSistemaVuelos(scanner);
+                    break;
+                case 25:
+                    menuSudoku(scanner);
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 21: INVENTARIO =========
+    private static void menuInventario(Scanner scanner) {
+        Inventario inventario = new Inventario();
+        int opcion;
+        do {
+            System.out.println("--- Sistema de Gestión de Inventario ---");
+            System.out.println("1. Agregar Producto Perecible");
+            System.out.println("2. Agregar Producto Electrónico");
+            System.out.println("3. Vender producto");
+            System.out.println("4. Listar productos");
+            System.out.println("5. Alertas de stock bajo");
+            System.out.println("6. Reporte más vendidos");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    System.out.print("Código: ");
+                    String cod = leerLineaCompleta(scanner);
+                    System.out.print("Nombre: ");
+                    String nom = leerLineaCompleta(scanner);
+                    System.out.print("Precio: ");
+                    double pre = leerDouble(scanner);
+                    System.out.print("Stock: ");
+                    int stock = leerEntero(scanner);
+                    System.out.print("Días para vencer: ");
+                    int dias = leerEntero(scanner);
+                    inventario.agregarProducto(new ProductoPerecible(cod, nom, pre, stock, LocalDate.now().plusDays(dias)));
+                    System.out.println("Producto agregado.");
+                    break;
+                }
+                case 2: {
+                    System.out.print("Código: ");
+                    String cod = leerLineaCompleta(scanner);
+                    System.out.print("Nombre: ");
+                    String nom = leerLineaCompleta(scanner);
+                    System.out.print("Precio: ");
+                    double pre = leerDouble(scanner);
+                    System.out.print("Stock: ");
+                    int stock = leerEntero(scanner);
+                    System.out.print("Garantía (meses): ");
+                    int gar = leerEntero(scanner);
+                    System.out.print("Marca: ");
+                    String marca = leerLineaCompleta(scanner);
+                    inventario.agregarProducto(new ProductoElectronico(cod, nom, pre, stock, gar, marca));
+                    System.out.println("Producto agregado.");
+                    break;
+                }
+                case 3: {
+                    System.out.print("Código del producto: ");
+                    String cod = leerLineaCompleta(scanner);
+                    ProductoInventario p = inventario.buscarPorCodigo(cod);
+                    if (p == null) {
+                        System.out.println("Producto no encontrado.");
+                    } else {
+                        System.out.print("Cantidad a vender: ");
+                        int cant = leerEntero(scanner);
+                        p.vender(cant);
+                        System.out.println("Venta registrada.");
+                    }
+                    break;
+                }
+                case 4:
+                    System.out.println(inventario.listarProductos());
+                    break;
+                case 5:
+                    System.out.println(inventario.alertasStockBajo());
+                    break;
+                case 6:
+                    System.out.println(inventario.reporteMasVendidos());
+                    break;
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 22: EXPRESIONES =========
+    private static void menuExpresiones(Scanner scanner) {
+        System.out.println("--- Analizador de Expresiones Matemáticas ---");
+        System.out.print("Ingresa expresión infija (ej: (3+4)*2): ");
+        String expr = leerLineaCompleta(scanner);
+        System.out.println(AnalizadorExpresiones.resolver(expr));
+    }
+
+    // ========= EJERCICIO 23: CAJERO =========
+    private static void menuCajero(Scanner scanner) {
+        System.out.print("Titular de la cuenta: ");
+        String titular = leerLineaCompleta(scanner);
+        System.out.print("PIN (4 dígitos): ");
+        String pin = leerLineaCompleta(scanner);
+        System.out.print("Saldo inicial: ");
+        double saldo = leerDouble(scanner);
+
+        Cuenta cuenta = new Cuenta(titular, pin, saldo);
+        CajeroAutomatico cajero = new CajeroAutomatico(cuenta);
+
+        int intentos = 0;
+        boolean autenticado = false;
+        while (intentos < 3) {
+            System.out.print("Ingresa tu PIN: ");
+            String intento = leerLineaCompleta(scanner);
+            if (cajero.autenticar(intento).equals("OK")) {
+                autenticado = true;
+                break;
+            }
+            intentos++;
+            System.out.println("PIN incorrecto. Intentos: " + intentos + "/3");
+        }
+
+        if (!autenticado) {
+            System.out.println("Demasiados intentos. Cuenta bloqueada.");
+            return;
+        }
+
+        int opcion;
+        do {
+            System.out.println("--- Cajero Automático ---");
+            System.out.println("1. Consultar saldo");
+            System.out.println("2. Depositar");
+            System.out.println("3. Retirar");
+            System.out.println("4. Historial");
+            System.out.println("0. Salir");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1:
+                    System.out.println(cajero.consultarSaldo());
+                    break;
+                case 2:
+                    System.out.print("Monto a depositar: ");
+                    System.out.println(cajero.depositar(leerDouble(scanner)));
+                    break;
+                case 3:
+                    System.out.print("Monto a retirar: ");
+                    System.out.println(cajero.retirar(leerDouble(scanner)));
+                    break;
+                case 4:
+                    System.out.println(cajero.verHistorial());
+                    break;
+                case 0:
+                    System.out.println("Gracias por usar el cajero.");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 24: VUELOS =========
+    private static void menuSistemaVuelos(Scanner scanner) {
+        SistemaVuelos sistema = new SistemaVuelos();
+        int opcion;
+        do {
+            System.out.println("--- Sistema de Reservas de Vuelos ---");
+            System.out.println("1. Agregar vuelo");
+            System.out.println("2. Registrar pasajero");
+            System.out.println("3. Buscar vuelos");
+            System.out.println("4. Reservar");
+            System.out.println("5. Cancelar reserva");
+            System.out.println("6. Listar vuelos");
+            System.out.println("7. Listar reservas");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    System.out.print("Código de vuelo: ");
+                    String cod = leerLineaCompleta(scanner);
+                    System.out.print("Origen: ");
+                    String ori = leerLineaCompleta(scanner);
+                    System.out.print("Destino: ");
+                    String des = leerLineaCompleta(scanner);
+                    System.out.print("Asientos: ");
+                    int asientos = leerEntero(scanner);
+                    System.out.print("Precio: ");
+                    double precio = leerDouble(scanner);
+                    sistema.agregarVuelo(new Vuelo(cod, ori, des, asientos, precio));
+                    System.out.println("Vuelo agregado.");
+                    break;
+                }
+                case 2: {
+                    System.out.print("Nombre: ");
+                    String nom = leerLineaCompleta(scanner);
+                    System.out.print("Documento: ");
+                    String doc = leerLineaCompleta(scanner);
+                    sistema.registrarPasajero(new Pasajero(nom, doc));
+                    System.out.println("Pasajero registrado.");
+                    break;
+                }
+                case 3: {
+                    System.out.print("Origen: ");
+                    String ori = leerLineaCompleta(scanner);
+                    System.out.print("Destino: ");
+                    String des = leerLineaCompleta(scanner);
+                    ArrayList<Vuelo> encontrados = sistema.buscarVuelos(ori, des);
+                    if (encontrados.isEmpty()) {
+                        System.out.println("No se encontraron vuelos.");
+                    } else {
+                        for (Vuelo v : encontrados) {
+                            System.out.println(v.mostrar());
+                        }
+                    }
+                    break;
+                }
+                case 4: {
+                    System.out.print("Documento del pasajero: ");
+                    String doc = leerLineaCompleta(scanner);
+                    System.out.print("Código de vuelo: ");
+                    String cod = leerLineaCompleta(scanner);
+                    System.out.println(sistema.reservar(doc, cod));
+                    break;
+                }
+                case 5: {
+                    System.out.print("Código de reserva: ");
+                    String cod = leerLineaCompleta(scanner);
+                    System.out.println(sistema.cancelar(cod));
+                    break;
+                }
+                case 6:
+                    System.out.println(sistema.listarVuelos());
+                    break;
+                case 7:
+                    System.out.println(sistema.listarReservas());
+                    break;
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    // ========= EJERCICIO 25: SUDOKU =========
+    private static void menuSudoku(Scanner scanner) {
+        int opcion;
+        do {
+            System.out.println("--- Validador y Resolvedor de Sudoku ---");
+            System.out.println("1. Resolver Sudoku");
+            System.out.println("2. Generar Sudoku aleatorio");
+            System.out.println("3. Validar Sudoku");
+            System.out.println("0. Volver");
+            System.out.print("Elige una opción: ");
+
+            opcion = leerEntero(scanner);
+
+            switch (opcion) {
+                case 1: {
+                    int[][] tablero = leerSudoku(scanner);
+                    if (!Sudoku.validar(tablero)) {
+                        System.out.println("El tablero no es válido.");
+                        break;
+                    }
+                    if (Sudoku.resolver(tablero)) {
+                        System.out.println("Solución:\n" + Sudoku.imprimir(tablero));
+                    } else {
+                        System.out.println("No tiene solución.");
+                    }
+                    break;
+                }
+                case 2: {
+                    System.out.print("Celdas a vaciar (10-50): ");
+                    int vacias = leerEntero(scanner);
+                    int[][] generado = Sudoku.generar(vacias);
+                    System.out.println("Sudoku generado:\n" + Sudoku.imprimir(generado));
+                    break;
+                }
+                case 3: {
+                    int[][] tablero = leerSudoku(scanner);
+                    System.out.println(Sudoku.validar(tablero) ? "El tablero es válido." : "El tablero NO es válido.");
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            System.out.println();
+        } while (opcion != 0);
+    }
+
+    private static int[][] leerSudoku(Scanner scanner) {
+        int[][] tablero = new int[9][9];
+        System.out.println("Ingresa el Sudoku (0 para celdas vacías):");
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print("[" + i + "][" + j + "]: ");
+                tablero[i][j] = leerEntero(scanner);
+            }
+        }
+        return tablero;
     }
 
     // ========= MÉTODOS AUXILIARES DE LECTURA =========
